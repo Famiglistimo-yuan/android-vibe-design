@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -61,7 +60,7 @@ fun NewProjectBottomSheet(onDismiss: () -> Unit) {
     containerColor = MaterialTheme.colorScheme.surface,
   ) {
     Column(
-      modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = spacing.lg),
+      modifier = Modifier.fillMaxWidth().padding(horizontal = spacing.lg),
       verticalArrangement = Arrangement.spacedBy(spacing.md),
     ) {
       Text(
