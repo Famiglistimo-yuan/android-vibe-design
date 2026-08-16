@@ -7,11 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aeibi.design.feature.settings.AppSettingsViewModel
+import com.aeibi.design.feature.settings.AppSettingsViewModelFactory
 import com.aeibi.design.theme.VibeDesignTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,13 +20,18 @@ class MainActivity : ComponentActivity() {
 
     enableEdgeToEdge()
     setContent {
-      var isDarkTheme by rememberSaveable { mutableStateOf(false) }
+      val settingsViewModel: AppSettingsViewModel =
+        viewModel(factory = AppSettingsViewModelFactory(applicationContext))
+      val settings = settingsViewModel.settings.collectAsStateWithLifecycle()
 
-      VibeDesignTheme(darkTheme = isDarkTheme) {
+      VibeDesignTheme(
+        darkTheme = settings.value.isDarkTheme,
+        colorTheme = settings.value.colorTheme,
+      ) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
           MainNavigation(
-            isDarkTheme = isDarkTheme,
-            onThemeToggle = { isDarkTheme = !isDarkTheme },
+            settings = settings.value,
+            onSettingsEvent = settingsViewModel::onEvent,
           )
         }
       }

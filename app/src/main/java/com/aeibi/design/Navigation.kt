@@ -8,9 +8,15 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.aeibi.design.feature.projects.ProjectsScreen
+import com.aeibi.design.feature.settings.AppSettingsEvent
+import com.aeibi.design.feature.settings.SettingsScreen
+import com.aeibi.design.data.settings.AppSettings
 
 @Composable
-fun MainNavigation(isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
+fun MainNavigation(
+  settings: AppSettings,
+  onSettingsEvent: (AppSettingsEvent) -> Unit,
+) {
   val backStack = rememberNavBackStack(Main)
 
   NavDisplay(
@@ -21,8 +27,17 @@ fun MainNavigation(isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
         entry<Main> {
           ProjectsScreen(
             modifier = Modifier.fillMaxSize().safeDrawingPadding(),
-            isDarkTheme = isDarkTheme,
-            onThemeToggle = onThemeToggle,
+            isDarkTheme = settings.isDarkTheme,
+            onThemeToggle = { onSettingsEvent(AppSettingsEvent.ToggleThemeMode) },
+            onSettingsClick = { backStack.add(Settings) },
+          )
+        }
+        entry<Settings> {
+          SettingsScreen(
+            modifier = Modifier.fillMaxSize().safeDrawingPadding(),
+            settings = settings,
+            onSettingsEvent = onSettingsEvent,
+            onBackClick = { backStack.removeLastOrNull() },
           )
         }
       },
