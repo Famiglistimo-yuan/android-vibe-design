@@ -36,9 +36,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.aeibi.design.theme.SystemAppIconShape
+import com.aeibi.design.theme.dimensions
 import com.aeibi.design.theme.spacing
 
 @Composable
@@ -48,6 +48,7 @@ fun NewProjectBottomSheet(onDismiss: () -> Unit) {
   var description by rememberSaveable { mutableStateOf("") }
   var iconUri by rememberSaveable { mutableStateOf<String?>(null) }
   val spacing = MaterialTheme.spacing
+  val dimensions = MaterialTheme.dimensions
   val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
   val photoPicker =
     rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -72,7 +73,7 @@ fun NewProjectBottomSheet(onDismiss: () -> Unit) {
         contentAlignment = Alignment.Center,
         modifier =
           Modifier
-            .size(96.dp)
+            .size(dimensions.projectPickerIcon)
             .clip(SystemAppIconShape)
             .background(MaterialTheme.colorScheme.primaryContainer)
             .clickable {
@@ -87,7 +88,7 @@ fun NewProjectBottomSheet(onDismiss: () -> Unit) {
             imageVector = Icons.Filled.AddPhotoAlternate,
             contentDescription = "选择应用图标",
             tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(36.dp),
+            modifier = Modifier.size(dimensions.iconLarge),
           )
         } else {
           AsyncImage(
@@ -117,7 +118,7 @@ fun NewProjectBottomSheet(onDismiss: () -> Unit) {
       )
       Row(
         modifier = Modifier.fillMaxWidth().padding(top = spacing.sm, bottom = spacing.lg),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = Arrangement.SpaceBetween,
       ) {
         TextButton(onClick = onDismiss) { Text("取消") }
         Button(onClick = onDismiss, enabled = name.isNotBlank()) { Text("创建项目") }

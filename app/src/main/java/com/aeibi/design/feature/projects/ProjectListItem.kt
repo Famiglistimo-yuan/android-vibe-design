@@ -2,6 +2,7 @@ package com.aeibi.design.feature.projects
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -20,12 +21,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.fallback
 import com.aeibi.design.theme.SystemAppIconShape
+import com.aeibi.design.theme.dimensions
 import com.aeibi.design.theme.spacing
 
 @Composable
@@ -34,10 +35,12 @@ fun ProjectListItem(
   description: String,
   updatedAt: String,
   iconUri: String? = null,
+  onClick: () -> Unit = {},
 ) {
   val context = LocalContext.current
   val defaultIcon = context.packageManager.defaultActivityIcon
   val spacing = MaterialTheme.spacing
+  val dimensions = MaterialTheme.dimensions
   val shape = MaterialTheme.shapes.small
 
   Row(
@@ -45,8 +48,9 @@ fun ProjectListItem(
       Modifier.fillMaxWidth()
         .height(IntrinsicSize.Min)
         .clip(shape)
+        .clickable(onClick = onClick)
         .background(MaterialTheme.colorScheme.surface)
-        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
+        .border(dimensions.borderThin, MaterialTheme.colorScheme.outlineVariant, shape)
         .padding(spacing.md),
     horizontalArrangement = Arrangement.spacedBy(spacing.md),
   ) {
@@ -58,7 +62,7 @@ fun ProjectListItem(
           .error(defaultIcon)
           .build(),
       contentDescription = "$name App Icon",
-      modifier = Modifier.size(84.dp).clip(SystemAppIconShape),
+      modifier = Modifier.size(dimensions.projectListIcon).clip(SystemAppIconShape),
       contentScale = ContentScale.Fit,
     )
 

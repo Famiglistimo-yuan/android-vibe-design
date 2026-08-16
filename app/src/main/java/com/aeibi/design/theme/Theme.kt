@@ -157,7 +157,10 @@ fun VibeDesignTheme(
       else -> colorTheme.colorScheme(darkTheme)
     }
 
-  CompositionLocalProvider(LocalSpacing provides Spacing()) {
+  CompositionLocalProvider(
+    LocalSpacing provides Spacing(),
+    LocalDimensions provides Dimensions(),
+  ) {
     MaterialTheme(
       colorScheme = colorScheme,
       typography = Typography,

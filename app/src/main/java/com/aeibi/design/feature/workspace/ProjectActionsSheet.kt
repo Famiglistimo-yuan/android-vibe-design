@@ -1,0 +1,52 @@
+package com.aeibi.design.feature.workspace
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun ProjectActionsSheet(
+  onDismiss: () -> Unit,
+  onBuildClick: () -> Unit,
+  onVersionsClick: () -> Unit,
+  onProjectSettingsClick: () -> Unit,
+  onAppSettingsClick: () -> Unit,
+) {
+  ModalBottomSheet(onDismissRequest = onDismiss) {
+    Column(modifier = Modifier.navigationBarsPadding()) {
+      ListItem(
+        headlineContent = { Text("打包与构建") },
+        leadingContent = { Icon(Icons.Filled.Build, contentDescription = null) },
+        modifier = Modifier.clickable { onDismiss(); onBuildClick() },
+      )
+      ListItem(
+        headlineContent = { Text("版本管理") },
+        leadingContent = { Icon(Icons.Filled.History, contentDescription = null) },
+        modifier = Modifier.clickable { onDismiss(); onVersionsClick() },
+      )
+      ListItem(
+        headlineContent = { Text("项目设置") },
+        leadingContent = { Icon(Icons.Filled.Tune, contentDescription = null) },
+        modifier = Modifier.clickable { onDismiss(); onProjectSettingsClick() },
+      )
+      ListItem(
+        headlineContent = { Text("应用设置") },
+        leadingContent = { Icon(Icons.Filled.Settings, contentDescription = null) },
+        modifier = Modifier.clickable { onDismiss(); onAppSettingsClick() },
+      )
+    }
+  }
+}

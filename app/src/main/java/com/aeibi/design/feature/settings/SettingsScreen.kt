@@ -34,8 +34,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
 import com.aeibi.design.data.settings.AppSettings
+import com.aeibi.design.theme.dimensions
 import com.aeibi.design.theme.previewColors
 import com.aeibi.design.theme.spacing
 import com.aeibi.design.theme.ColorTheme
@@ -96,10 +96,12 @@ private fun ThemeOption(
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
+  val dimensions = MaterialTheme.dimensions
+
   Card(
     modifier =
       modifier
-        .height(72.dp)
+        .height(dimensions.themeOptionHeight)
         .semantics {
           contentDescription = "${theme.displayName}颜色主题"
           role = Role.RadioButton
@@ -107,7 +109,12 @@ private fun ThemeOption(
         }
         .clickable(onClick = onClick),
     shape = MaterialTheme.shapes.medium,
-    border = if (selected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
+    border =
+      if (selected) {
+        BorderStroke(dimensions.borderSelected, MaterialTheme.colorScheme.primary)
+      } else {
+        null
+      },
   ) {
     Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
       Row(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {

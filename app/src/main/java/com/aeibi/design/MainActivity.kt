@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.aeibi.design.feature.settings.AppSettingsViewModel
 import com.aeibi.design.feature.settings.AppSettingsViewModelFactory
+import com.aeibi.design.navigation.AppNavigation
 import com.aeibi.design.theme.VibeDesignTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
         colorTheme = settings.value.colorTheme,
       ) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          MainNavigation(
+          AppNavigation(
             settings = settings.value,
             onSettingsEvent = settingsViewModel::onEvent,
           )

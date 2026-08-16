@@ -36,6 +36,7 @@ fun ProjectsScreen(
   isDarkTheme: Boolean = false,
   onThemeToggle: () -> Unit = {},
   onSettingsClick: () -> Unit = {},
+  onProjectClick: (String) -> Unit = {},
 ) {
   val spacing = MaterialTheme.spacing
   var showNewProjectSheet by rememberSaveable { mutableStateOf(false) }
@@ -74,6 +75,7 @@ fun ProjectsScreen(
           name = "日常发芽",
           description = "不焦虑的日常习惯记录",
           updatedAt = "刚刚修改",
+          onClick = { onProjectClick("daily-growth") },
         )
       }
       item {
@@ -81,6 +83,7 @@ fun ProjectsScreen(
           name = "周末去哪",
           description = "根据心情生成短途路线",
           updatedAt = "昨天修改",
+          onClick = { onProjectClick("weekend-trip") },
         )
       }
       item {
@@ -88,6 +91,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer") },
         )
       }
       item {
@@ -95,6 +99,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer-2") },
         )
       }
       item {
@@ -102,6 +107,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer-3") },
         )
       }
       item {
@@ -109,6 +115,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer-4") },
         )
       }
       item {
@@ -116,6 +123,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer-5") },
         )
       }
       item {
@@ -123,6 +131,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer-6") },
         )
       }
       item {
@@ -130,6 +139,7 @@ fun ProjectsScreen(
           name = "专注计时器",
           description = "把大任务切成可完成的小段",
           updatedAt = "8月6日修改",
+          onClick = { onProjectClick("focus-timer-7") },
         )
       }
     }
