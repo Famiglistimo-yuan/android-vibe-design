@@ -6,23 +6,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.aeibi.design.data.settings.AppSettings
 import com.aeibi.design.feature.build.ProjectBuildScreen
 import com.aeibi.design.feature.preview.ProjectPreviewScreen
 import com.aeibi.design.feature.projects.ProjectsScreen
 import com.aeibi.design.feature.projectsettings.ProjectSettingsScreen
-import com.aeibi.design.feature.settings.AppSettingsEvent
 import com.aeibi.design.feature.settings.SettingsScreen
 import com.aeibi.design.feature.versions.ProjectVersionsScreen
 import com.aeibi.design.feature.workspace.ProjectWorkspaceScreen
 
-private const val DefaultSessionId = "new-session"
-
 @Composable
-fun AppNavigation(
-  settings: AppSettings,
-  onSettingsEvent: (AppSettingsEvent) -> Unit,
-) {
+fun AppNavigation() {
   val backStack = rememberNavBackStack(ProjectPicker)
 
   NavDisplay(
@@ -40,6 +33,10 @@ fun AppNavigation(
               backStack.removeLastOrNull()
               backStack.add(route.copy(sessionId = sessionId))
             },
+            onNewChatClick = {
+              backStack.removeLastOrNull()
+              backStack.add(route.copy(sessionId = null))
+            },
             onPreviewClick = { backStack.add(ProjectPreview(route.projectId)) },
             onBuildClick = { backStack.add(ProjectBuild(route.projectId)) },
             onVersionsClick = { backStack.add(ProjectVersions(route.projectId)) },
@@ -50,11 +47,9 @@ fun AppNavigation(
         entry<ProjectPicker> {
           ProjectsScreen(
             modifier = Modifier.fillMaxSize(),
-            isDarkTheme = settings.isDarkTheme,
-            onThemeToggle = { onSettingsEvent(AppSettingsEvent.ToggleThemeMode) },
             onSettingsClick = { backStack.add(ApplicationSettings) },
             onProjectClick = { projectId ->
-              backStack.add(ProjectChat(projectId, DefaultSessionId))
+              backStack.add(ProjectChat(projectId))
             },
           )
         }
@@ -89,8 +84,6 @@ fun AppNavigation(
         entry<ApplicationSettings> {
           SettingsScreen(
             modifier = Modifier.fillMaxSize(),
-            settings = settings,
-            onSettingsEvent = onSettingsEvent,
             onBackClick = { backStack.removeLastOrNull() },
           )
         }
