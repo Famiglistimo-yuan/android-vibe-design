@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+    <string name="back">Back</string>
+    <string name="general_section_title">General</string>
+    <string name="ai_section_title">AI</string>
+    <string name="ai_services_row">AI services</string>
+    <string name="ai_providers_not_configured">Not configured</string>
+    <string name="ai_providers_configured">%1$d services configured</string>
+    <string name="cd_open">Open %1$s</string>
+    <string name="language_section_title">Language</string>
+    <string name="language_follow_system">Follow system</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en">English</string>
+    <string name="new_session">New session</string>
+    <string name="session_default_title">New session</string>
+    <string name="no_sessions">No sessions</string>
+    <string name="session_actions_rename">Rename</string>
+    <string name="session_actions_delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="rename_session_title">Rename session</string>
+    <string name="name_label">Name</string>
+    <string name="save">Save</string>
+    <string name="delete_session_title">Delete session</string>
+    <string name="delete_session_confirm">Delete "%1$s"? This cannot be undone.</string>
+    <!-- Projects -->
+    <string name="projects_cd_new_project">New project</string>
+    <string name="projects_cd_settings">Settings</string>
+    <string name="projects_new_title">New project</string>
+    <string name="projects_name_placeholder">e.g. Weekend getaway</string>
+    <string name="description_label">Description</string>
+    <string name="projects_description_placeholder">Describe this app in one sentence</string>
+    <string name="projects_create_button">Create project</string>
+    <string name="projects_edit_title">Edit project</string>
+    <string name="projects_cd_pick_icon">Choose app icon</string>
+    <string name="projects_cd_selected_icon">Selected app icon</string>
+    <string name="projects_icon_crop_failed">Icon cropping failed. Please choose another image</string>
+    <string name="projects_create_failed">Failed to create the project. Please try again</string>
+    <string name="projects_update_failed">Failed to save the project. Please try again</string>
+    <string name="projects_delete_failed">Failed to delete the project. Please try again</string>
+    <string name="projects_empty">No projects yet. Tap + in the top-right to create your first one</string>
+    <string name="delete_project_title">Delete project</string>
+    <string name="delete_project_message">This will delete the project and all of its sessions. This cannot be undone.</string>
+    <string name="delete">Delete</string>
+    <!-- Relative time -->
+    <string name="time_just_now">Just now</string>
+    <string name="time_minutes_ago">%1$d min ago</string>
+    <string name="time_hours_ago">%1$d hr ago</string>
+    <string name="time_days_ago">%1$d d ago</string>
+    <string name="time_absolute_date_pattern">MMM d</string>
+    <!-- Workspace -->
+    <string name="workspace_unnamed_project">Unnamed project</string>
+    <string name="workspace_cd_back_home">Back to projects</string>
+    <string name="workspace_cd_sessions">Switch session</string>
+    <string name="workspace_cd_preview">Open preview</string>
+    <string name="workspace_cd_actions">Project actions</string>
+    <string name="workspace_action_build">Build &amp; package</string>
+    <string name="workspace_action_versions">Versions</string>
+    <string name="workspace_action_project_settings">Project settings</string>
+    <string name="workspace_action_app_settings">App settings</string>
+    <!-- Chat -->
+    <string name="chat_cd_add_tool">Add tool</string>
+    <string name="chat_input_hint">Describe what you want to build</string>
+    <string name="chat_cd_send">Send</string>
+    <string name="chat_empty_title">Start a new conversation</string>
+    <string name="chat_empty_no_session">Project %1$s · No session yet</string>
+    <string name="chat_empty_session">Project %1$s · Session %2$s</string>
+    <!-- Placeholder screens -->
+    <string name="build_title">Build &amp; package</string>
+    <string name="build_project_label">Project: %1$s</string>
+    <string name="build_log_empty">No build records yet</string>
+    <string name="preview_title">Live preview</string>
+    <string name="preview_cd_fullscreen">Fullscreen preview</string>
+    <string name="preview_placeholder">Live preview area for project %1$s</string>
+    <string name="versions_title">Versions</string>
+    <string name="versions_placeholder">Version history for project %1$s</string>
+    <string name="project_settings_title">Project settings</string>
+    <string name="project_settings_placeholder">Settings for project %1$s</string>
+    <!-- AI providers settings -->
+    <string name="ai_add_service">Add service</string>
+    <string name="ai_no_providers">No AI service configured yet</string>
+    <string name="ai_remove_provider_title">Remove %1$s?</string>
+    <string name="ai_remove_provider_message">The saved API Key will also be removed.</string>
+    <string name="ai_remove">Remove</string>
+    <string name="ai_cd_remove_provider">Remove %1$s</string>
+    <string name="ai_cd_select_provider">Select %1$s</string>
+    <string name="ai_config_saved">Configuration saved</string>
+    <string name="ai_save_failed">Failed to save</string>
+    <string name="ai_config_removed">Configuration removed</string>
+    <string name="ai_delete_failed">Failed to remove</string>
+    <string name="ai_read_key_failed">Cannot read the saved API Key</string>
+    <string name="ai_err_name_empty">Configuration name cannot be empty</string>
+    <string name="ai_err_endpoint_empty">API endpoint cannot be empty</string>
+    <string name="ai_err_models_empty">At least one model is required</string>
+    <string name="ai_cd_hide_key">Hide API Key</string>
+    <string name="ai_cd_show_key">Show API Key</string>
+    <string name="ai_custom_settings">Custom settings</string>
+    <string name="ai_endpoint_label">API endpoint</string>
+    <string name="ai_models_label">Models</string>
+    <string name="ai_model_name_label">Model name</string>
+    <string name="ai_model_number_label">Model %1$d</string>
+    <string name="ai_cd_remove_model">Remove model</string>
+    <string name="ai_add_model">Add model</string>
+</resources>

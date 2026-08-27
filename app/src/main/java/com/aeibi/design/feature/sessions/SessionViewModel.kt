@@ -1,10 +1,14 @@
 package com.aeibi.design.feature.sessions
 
+import android.content.Context
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aeibi.design.R
 import com.aeibi.design.data.sessions.SessionEntity
 import com.aeibi.design.data.sessions.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import java.util.UUID
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +18,10 @@ import kotlinx.coroutines.launch
 
 /** 会话列表状态入口：暴露按项目隔离的会话流，并承载创建、重命名、删除动作。 */
 @HiltViewModel
-class SessionViewModel @Inject constructor(private val repository: SessionRepository) : ViewModel() {
+class SessionViewModel @Inject constructor(
+    private val repository: SessionRepository,
+    @ApplicationContext private val context: Context
+) : ViewModel() {
 
     private val _sessions = MutableStateFlow<List<SessionEntity>>(emptyList())
     val sessions: StateFlow<List<SessionEntity>> = _sessions.asStateFlow()
@@ -32,7 +39,7 @@ class SessionViewModel @Inject constructor(private val repository: SessionReposi
         val session = SessionEntity(
             id = UUID.randomUUID().toString(),
             projectId = projectId,
-            title = DEFAULT_TITLE,
+            title = defaultTitle(),
             createdAt = now,
             updatedAt = now
         )
@@ -48,7 +55,5 @@ class SessionViewModel @Inject constructor(private val repository: SessionReposi
         repository.deleteSession(sessionId)
     }
 
-    private companion object {
-        const val DEFAULT_TITLE = "新会话"
-    }
+    private fun defaultTitle(): String = ContextCompat.getString(context, R.string.session_default_title)
 }

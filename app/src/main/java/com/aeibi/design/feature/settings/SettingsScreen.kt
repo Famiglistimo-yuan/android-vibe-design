@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,11 +26,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aeibi.design.R
+import com.aeibi.design.feature.settings.language.currentLanguageDisplayName
 import com.aeibi.design.theme.VibeDesignTheme
 import com.aeibi.design.theme.spacing
 
@@ -39,15 +43,17 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     onAiProvidersClick: () -> Unit = {},
+    onLanguageClick: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
         modifier = modifier,
-        aiProvidersSummary = uiState.aiProvidersSummary,
+        aiProviderCount = uiState.aiProviderCount,
         onBackClick = onBackClick,
-        onAiProvidersClick = onAiProvidersClick
+        onAiProvidersClick = onAiProvidersClick,
+        onLanguageClick = onLanguageClick
     )
 }
 
@@ -55,20 +61,26 @@ fun SettingsScreen(
 @Composable
 private fun SettingsScreenContent(
     modifier: Modifier = Modifier,
-    aiProvidersSummary: String,
+    aiProviderCount: Int = 0,
     onBackClick: () -> Unit = {},
-    onAiProvidersClick: () -> Unit = {}
+    onAiProvidersClick: () -> Unit = {},
+    onLanguageClick: () -> Unit = {}
 ) {
     val spacing = MaterialTheme.spacing
+    val aiProvidersSummary = if (aiProviderCount == 0) {
+        stringResource(R.string.ai_providers_not_configured)
+    } else {
+        stringResource(R.string.ai_providers_configured, aiProviderCount)
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("设置") },
+                title = { Text(stringResource(R.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -82,14 +94,29 @@ private fun SettingsScreenContent(
             contentPadding = PaddingValues(horizontal = spacing.md, vertical = spacing.xs)
         ) {
             item {
-                SettingsSectionTitle("AI")
+                SettingsSectionTitle(stringResource(R.string.general_section_title))
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.large,
                     color = MaterialTheme.colorScheme.surfaceContainerLow
                 ) {
                     SettingsNavigationRow(
-                        title = "AI 服务",
+                        title = stringResource(R.string.language_section_title),
+                        summary = currentLanguageDisplayName(),
+                        onClick = onLanguageClick,
+                        leadingIcon = Icons.Default.Translate
+                    )
+                }
+            }
+            item {
+                SettingsSectionTitle(stringResource(R.string.ai_section_title))
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.large,
+                    color = MaterialTheme.colorScheme.surfaceContainerLow
+                ) {
+                    SettingsNavigationRow(
+                        title = stringResource(R.string.ai_services_row),
                         summary = aiProvidersSummary,
                         onClick = onAiProvidersClick,
                         leadingIcon = Icons.Default.Hub
@@ -114,12 +141,12 @@ private fun SettingsSectionTitle(title: String) {
 @Composable
 private fun SettingsScreenPreview() {
     VibeDesignTheme(dynamicColor = false) {
-        SettingsScreenContent(aiProvidersSummary = "已配置 2 个服务")
+        SettingsScreenContent(aiProviderCount = 2)
     }
 }
 
 @Composable
-private fun SettingsNavigationRow(title: String, summary: String, onClick: () -> Unit, leadingIcon: ImageVector) {
+fun SettingsNavigationRow(title: String, summary: String, onClick: () -> Unit, leadingIcon: ImageVector) {
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
@@ -137,7 +164,7 @@ private fun SettingsNavigationRow(title: String, summary: String, onClick: () ->
         trailingContent = {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "打开 $title"
+                contentDescription = stringResource(R.string.cd_open, title)
             )
         }
     )

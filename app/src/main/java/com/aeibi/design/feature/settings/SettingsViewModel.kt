@@ -9,18 +9,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-data class SettingsUiState(val aiProviderCount: Int = 0) {
-    val aiProvidersSummary: String
-        get() = when (aiProviderCount) {
-            0 -> "尚未配置"
-            else -> "已配置 $aiProviderCount 个服务"
-        }
-}
+data class SettingsUiState(val aiProviderCount: Int = 0)
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(repository: AiProviderRepository) : ViewModel() {
     val uiState = repository.settings
-        .map { SettingsUiState(aiProviderCount = it.providers.size) }
+        .map { settings -> SettingsUiState(aiProviderCount = settings.providers.size) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
