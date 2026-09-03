@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -71,7 +72,8 @@ fun AiProvidersScreen(
         onClearFeedback = viewModel::clearFeedback,
         onRevealApiKey = viewModel::revealApiKey,
         onSaveProvider = viewModel::saveProvider,
-        onDeleteProvider = viewModel::deleteProvider
+        onDeleteProvider = viewModel::deleteProvider,
+        onSelectModel = viewModel::selectModel
     )
 }
 
@@ -84,7 +86,8 @@ private fun AiProvidersContent(
     onClearFeedback: () -> Unit = {},
     onRevealApiKey: suspend (String) -> String? = { null },
     onSaveProvider: (ProviderConfig, String, (Boolean) -> Unit) -> Unit = { _, _, onComplete -> onComplete(true) },
-    onDeleteProvider: (String) -> Unit = {}
+    onDeleteProvider: (String) -> Unit = {},
+    onSelectModel: (String, String) -> Unit = { _, _ -> }
 ) {
     val spacing = MaterialTheme.spacing
     val context = LocalContext.current
@@ -136,6 +139,7 @@ private fun AiProvidersContent(
                             editingProvider = it
                         },
                         onDelete = { pendingDelete = it.config },
+                        onSelectModel = onSelectModel,
                         onAdd = { showProviderPicker = true }
                     )
                 }
@@ -157,8 +161,7 @@ private fun AiProvidersContent(
                         displayName = provider.displayName,
                         endpoint = provider.defaultEndpoint,
                         models = provider.defaultModels.ifEmpty { listOf("") }
-                    ),
-                    hasApiKey = false
+                    )
                 )
             }
         )
@@ -239,8 +242,7 @@ private fun AiProvidersConfiguredScreenPreview() {
                 displayName = "OpenAI 个人账号",
                 endpoint = "https://api.openai.com/v1",
                 models = listOf("gpt-5.6-sol", "gpt-5.6-terra")
-            ),
-            hasApiKey = true
+            )
         ),
         ProviderConfigItem(
             config = ProviderConfig(
@@ -249,8 +251,7 @@ private fun AiProvidersConfiguredScreenPreview() {
                 displayName = "DeepSeek",
                 endpoint = "https://api.deepseek.com",
                 models = listOf("deepseek-v4-flash")
-            ),
-            hasApiKey = true
+            )
         )
     )
     VibeDesignTheme(dynamicColor = false) {
@@ -269,6 +270,7 @@ private fun ProviderGroup(
     providerIconRes: (ProviderConfigItem) -> Int,
     onEdit: (ProviderConfigItem) -> Unit,
     onDelete: (ProviderConfigItem) -> Unit,
+    onSelectModel: (String, String) -> Unit,
     onAdd: () -> Unit
 ) {
     val spacing = MaterialTheme.spacing
@@ -286,6 +288,21 @@ private fun ProviderGroup(
                     onClick = { onEdit(item) },
                     onDelete = { onDelete(item) }
                 )
+                item.config.models.forEach { modelId ->
+                    ListItem(
+                        modifier = Modifier.clickable { onSelectModel(item.config.id, modelId) },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        ),
+                        headlineContent = { Text(modelId, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                        leadingContent = {
+                            RadioButton(
+                                selected = item.selectedModelId == modelId,
+                                onClick = { onSelectModel(item.config.id, modelId) }
+                            )
+                        }
+                    )
+                }
             }
             HorizontalDivider(modifier = Modifier.padding(start = spacing.md))
             ListItem(

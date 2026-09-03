@@ -1,9 +1,10 @@
 package com.aeibi.design.di
 
+import ai.koog.http.client.KoogHttpClient
+import ai.koog.http.client.ktor.KtorKoogHttpClient
 import android.content.Context
 import androidx.room3.Room
 import com.aeibi.design.data.database.AppDatabase
-import com.aeibi.design.data.projectfiles.ProjectFileToolsFactory
 import com.aeibi.design.data.projects.ProjectRepository
 import com.aeibi.design.data.sessions.SessionDao
 import com.aeibi.design.data.templates.TemplateRepository
@@ -12,6 +13,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import jakarta.inject.Singleton
 import java.io.File
 
@@ -25,7 +28,7 @@ object AppModule {
         context = context,
         klass = AppDatabase::class.java,
         name = DATABASE_NAME
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     @Provides
     fun provideSessionDao(database: AppDatabase): SessionDao = database.sessionDao()
@@ -42,13 +45,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideProjectFileToolsFactory(projectsDir: File): ProjectFileToolsFactory =
-        ProjectFileToolsFactory(projectsDir)
+    fun provideTemplateRepository(@ApplicationContext context: Context): TemplateRepository =
+        TemplateRepository(context.assets)
 
     @Provides
     @Singleton
-    fun provideTemplateRepository(@ApplicationContext context: Context): TemplateRepository =
-        TemplateRepository(context.assets)
+    fun provideKoogHttpClientFactory(): KoogHttpClient.Factory = KtorKoogHttpClient.Factory(HttpClient(OkHttp))
 
     private const val DATABASE_NAME = "vibe-design.db"
 }
